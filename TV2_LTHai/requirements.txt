@@ -1,0 +1,6 @@
+# TV2 – Pima Indians Diabetes
+# Các module Forest-RI/Forest-RC dùng chung nằm ở TV_NPHieu/code/
+numpy
+pandas
+scikit-learn>=1.2
+matplotlib
