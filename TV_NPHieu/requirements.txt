@@ -1,0 +1,17 @@
+# Thư viện cần để chạy code trong TV_NPHieu/code/
+# Cài đặt (chạy trong folder TV_NPHieu/):  pip install -r requirements.txt
+#
+# Các phiên bản dưới đây là phiên bản đã dùng để tạo ra kết quả trong results/ và figures/
+# (Python 3.13.12, Windows).
+#
+# Yêu cầu tối thiểu:
+#   - Python 3.11 trở lên: numpy, pandas và scikit-learn ở các phiên bản ghim bên dưới
+#     không cài được trên Python 3.10.
+#   - scikit-learn >= 1.4: forest_utils.py dùng thuộc tính `estimators_samples_`
+#     của RandomForestClassifier để tự tính OOB error.
+
+numpy==2.4.3
+pandas==3.0.1
+scikit-learn==1.8.0
+matplotlib==3.10.8
+joblib==1.5.3
