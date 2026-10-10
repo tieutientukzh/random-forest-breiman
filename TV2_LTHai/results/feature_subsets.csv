@@ -1,0 +1,5 @@
+n_features,features,accuracy
+2,"Glucose,BMI",0.71875
+4,"Glucose,Insulin,BMI,Age",0.7239583333333334
+6,"Pregnancies,Glucose,SkinThickness,Insulin,BMI,Age",0.7291666666666666
+8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",0.7447916666666666
