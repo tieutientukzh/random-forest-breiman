@@ -1,326 +1,341 @@
-"""
-main.py - Chay TRON BO thuc nghiem Sonar (TV3) va luu ket qua tung lan lap.
 
-Dung chung rf_breiman.py (cung thu muc). Gom:
-  - Bang 2: Adaboost | Forest-RI (Selection, Single Input F=1, One Tree)
-  - Bang 3: Adaboost | Forest-RC (Selection, Two Features F=2, One Tree)
-  - Bang 4: % tang loi khi them 5% nhieu nhan: Adaboost, Forest-RI, Forest-RC
-  - Strength / correlation / c_s2 (nam trong cac cot cua Bang 2, 3)
-  - Hinh 1: Forest-RI, F tu 1 den 50
-  - Variable Importance (1000 cay, lap 10 seed)
+"""Sonar - Breiman (2001): Tables 2, 3, 4, Figure 1 and Variable Importance."""
+from pathlib import Path
+import argparse
 
-Cach chay:
-  python -u main.py                 # chay day du (n_rep=100)  -> lau
-  python -u main.py 5               # chay thu nhanh (n_rep=5)
-  python -u main.py 100 duong_dan\\sonar.all-data
-"""
-import os
-import sys
 import numpy as np
 import pandas as pd
 from joblib import Parallel, delayed
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
-from rf_breiman import (
-    BreimanForest, add_label_noise, load_sonar, one_repeat,
-    plot_figure1, sweep_F, variable_importance, oob_report
-)
+from rf_breiman import fit_forest, measure, test_error, perm_importance
 
-# So lieu cua bai bao (Sonar) de doi chieu
-PAPER = {
-    "table2": dict(adaboost=15.6, selection=15.9, single=18.0, one_tree=31.7),
-    "table3": dict(adaboost=15.6, selection=13.6, single=13.8, one_tree=31.7),
-    "table4": dict(adaboost=15.1, RI=-6.6, RC=4.2),
-}
+ROOT = Path(__file__).resolve().parent.parent
+PAPER_2 = {"adaboost": 15.6, "selection": 15.9, "single": 18.0, "one_tree": 31.7}
+PAPER_3 = {"adaboost": 15.6, "selection": 13.6, "single": 13.8, "one_tree": 31.7}
+PAPER_4 = {"Adaboost": 15.1, "RI": -6.6, "RC": 4.2}
 
 
-# ------------------------------------------------------------------ Adaboost
-class AdaBoostResample:
-    """AdaBoost nhi phan dung trong so mau (sample_weight), cay CART max_depth=5, 50 cay.
-    Cay vo dung (loi co trong so >= 0.5): bo cay, dat lai trong so deu roi thu tiep.
-    Cay khop hoan hao (loi = 0): giu voi alpha = 1, dat lai trong so deu (tranh alpha ~ 11.5 at phieu)."""
-    def __init__(self, n_estimators=50, random_state=42, max_depth=5):
-        self.n_estimators = n_estimators
-        self.random_state = random_state
-        self.max_depth = max_depth
-        self.models = []
-        self.alphas = []
-
-    def fit(self, X, y):
-        X = np.asarray(X)
-        y = np.asarray(y)
-        classes = np.unique(y)
-        self.classes_ = classes
-        if len(classes) != 2:
-            raise ValueError("AdaBoostResample chi ho tro bai toan 2 lop.")
-        y_signed = np.where(y == classes[1], 1, -1)
-        n = len(y)
-        w = np.ones(n) / n
-        self.models, self.alphas = [], []
-        tries = 0
-        while len(self.models) < self.n_estimators and tries < 3 * self.n_estimators:
-            tries += 1
-            tree = DecisionTreeClassifier(max_depth=self.max_depth,
-                                          random_state=self.random_state + tries)
-            tree.fit(X, y_signed, sample_weight=w)
-            pred = tree.predict(X)
-            err = np.sum(w[pred != y_signed])
-            if err >= 0.5:
-                w = np.ones(n) / n
-                continue
-            if err <= 1e-10:
-                self.models.append(tree)
-                self.alphas.append(1.0)
-                w = np.ones(n) / n
-                continue
-            alpha = 0.5 * np.log((1 - err) / err)
-            self.models.append(tree)
-            self.alphas.append(alpha)
-            w *= np.exp(-alpha * y_signed * pred)
-            w /= w.sum()
-        return self
-
-    def predict(self, X):
-        X = np.asarray(X)
-        scores = np.zeros(len(X))
-        for tree, alpha in zip(self.models, self.alphas):
-            scores += alpha * tree.predict(X)
-        return np.where(scores >= 0, self.classes_[1], self.classes_[0])
-
-    def score_error(self, X, y):
-        return np.mean(self.predict(X) != np.asarray(y)) * 100
+def split(X, y, seed):
+    return train_test_split(X, y, test_size=.10, random_state=int(seed))
 
 
+def load_data(path):
+    df = pd.read_csv(path, header=None)
+    if df.shape != (208, 61):
+        raise ValueError(f"Sonar needs (208, 61) raw columns; got {df.shape}")
+    X = df.iloc[:, :60].apply(pd.to_numeric, errors="raise").to_numpy(float)
+    label = df.iloc[:, 60].astype(str).str.strip().str.upper()
+    if set(label) != {"R", "M"} or not np.isfinite(X).all():
+        raise ValueError("Expected 60 numeric inputs and labels R/M")
+    return X, (label == "M").to_numpy(dtype=int)
 
 
-# ------------------------------------------------------------------ Bang 2, 3
+def fit_ada(X, y, seed, depth):
+    tree = DecisionTreeClassifier(max_depth=depth, criterion="gini", random_state=seed)
+    try:
+        model = AdaBoostClassifier(estimator=tree, n_estimators=50, random_state=seed)
+    except TypeError:
+        model = AdaBoostClassifier(base_estimator=tree, n_estimators=50, random_state=seed)
+    return model.fit(X, y)
 
 
-def table23_job(X, y, i, F2):
-    Xtr, Xte, ytr, yte = train_test_split(
-        X, y, test_size=0.1, random_state=42 + i
-    )
+def one_table23(X, y, i, args):
+    seed = args.seed + i
+    Xtr, Xte, ytr, yte = split(X, y, seed)
+    ada = fit_ada(Xtr, ytr, seed, args.ada_depth)
+    eada = np.mean(ada.predict(Xte) != yte) * 100
+    outputs = []
 
-    ada = AdaBoostResample(
-        n_estimators=50,
-        random_state=42 + i
-    ).fit(Xtr, ytr)
-
-    ada_err = ada.score_error(Xte, yte)
-
-    ri = one_repeat(X, y, i, "RI", [1, F2])
-    rc = one_repeat(X, y, i, "RC", [2, 8])
-
-    return (
-        dict(
-            seed=i,
-            adaboost=ada_err,
-            n_ada_trees=len(ada.models),
-            **ri
-        ),
-        dict(
-            seed=i,
-            adaboost=ada_err,
-            n_ada_trees=len(ada.models),
-            **rc
+    for mode, Fs in (("RI", [1, 6]), ("RC", [2, 8])):
+        results = {
+            f: measure(mode, f, Xtr, ytr, Xte, yte, seed, args.trees)
+            for f in Fs
+        }
+        chosen = min(Fs, key=lambda f: results[f]["oob_error"])
+        out = dict(
+            seed=seed,
+            adaboost=eada,
+            n_ada_trees=len(ada.estimators_),
+            selection=results[chosen]["test_error"],
+            single=results[Fs[0]]["test_error"],
+            one_tree=results[chosen]["one_tree"],
+            selected_F=chosen,
+            strength=results[chosen]["strength"],
+            correlation=results[chosen]["correlation"],
+            rho_over_s2=results[chosen]["rho_over_s2"],
+            F_low_test=results[Fs[0]]["test_error"],
+            F_high_test=results[Fs[1]]["test_error"],
+            F_low_OOB=results[Fs[0]]["oob_error"],
+            F_high_OOB=results[Fs[1]]["oob_error"]
         )
+        outputs.append(out)
+    return outputs
+
+
+def table23(X, y, args, res, repeats):
+    print(f"\n[BANG 2-3] {repeats} lan, OOB chon F cho tung lan chia", flush=True)
+    pairs = Parallel(n_jobs=args.jobs, verbose=5)(
+        delayed(one_table23)(X, y, i, args) for i in range(repeats)
     )
+    df2 = pd.DataFrame([p[0] for p in pairs])
+    df3 = pd.DataFrame([p[1] for p in pairs])
+
+    for no, df, paper in [(2, df2, PAPER_2), (3, df3, PAPER_3)]:
+        summary = pd.DataFrame({
+            "mean_pct": df[list(paper)].mean(),
+            "SE_pct": df[list(paper)].std(ddof=1) / np.sqrt(len(df)),
+            "paper_pct": pd.Series(paper)
+        })
+        summary["difference_points"] = summary["mean_pct"] - summary["paper_pct"]
+
+        if no == 3:
+            summary.loc["F2_clean", "mean_pct"] = df.F_low_test.mean()
+            summary.loc["F8_clean", "mean_pct"] = df.F_high_test.mean()
+
+        filename = f"table{no}_forest_{'ri' if no == 2 else 'rc'}.csv"
+        df.to_csv(res / filename, index=False)
+        print(f"\nBANG {no}:\n{summary.round(2).to_string()}")
+        print("F theo OOB:", df.selected_F.value_counts().to_dict())
+
+    sc = pd.concat([
+        df2.assign(mode="RI"),
+        df3.assign(mode="RC")
+    ], ignore_index=True)
+    sc[[
+        "seed", "mode", "selected_F", "strength",
+        "correlation", "rho_over_s2"
+    ]].to_csv(res / "strength_correlation.csv", index=False)
+    return df3
 
 
+def one_figure(X, y, i, args, fs):
+    seed = args.seed + 10000 + i
+    Xtr, Xte, ytr, yte = split(X, y, seed)
+    return [
+        dict(F=f, seed=seed, **measure(
+            "RI", f, Xtr, ytr, Xte, yte, seed, args.trees
+        ))
+        for f in fs
+    ]
 
-# ------------------------------------------------------------------ Bang 4
 
-def noise_job(X, y, i, rate=0.05):
-    Xtr, Xte, ytr, yte = train_test_split(
-        X, y, test_size=0.1, random_state=42 + i
+def figure1(X, y, args, res, fig, repeats, fast=False):
+    Fs = [1, 3, 6, 8, 10] if fast else range(1, 51)
+    print(f"\n[HINH 1] F={list(Fs) if fast else '1..50'}; {repeats} lan", flush=True)
+
+    all_runs = Parallel(n_jobs=args.jobs, verbose=5)(
+        delayed(one_figure)(X, y, i, args, Fs)
+        for i in range(repeats)
     )
+    detail = pd.DataFrame(row for group in all_runs for row in group)
+    summary = detail.groupby("F")[[
+        "test_error", "oob_error", "strength",
+        "correlation", "rho_over_s2"
+    ]].mean()
 
-    yn = add_label_noise(
-        ytr, rate, np.random.default_rng(1000 + i)
+    detail.to_csv(res / "figure1_sonar_ri.csv", index=False)
+
+    axes_fig, ax = plt.subplots(2, 1, figsize=(7.5, 8.8), sharex=True)
+    ax[0].plot(summary.index, summary.strength, label="Strength")
+    ax[0].plot(summary.index, summary.correlation, label="Correlation")
+    ax[0].set_ylabel("Value")
+    ax[0].legend()
+    ax[0].grid(alpha=.2)
+
+    ax[1].plot(summary.index, summary.test_error, label="Test error (%)")
+    ax[1].plot(summary.index, summary.oob_error, label="OOB error (%)")
+    ax[1].set_xlabel("F (random inputs per node)")
+    ax[1].set_ylabel("Error (%)")
+    ax[1].legend()
+    ax[1].grid(alpha=.2)
+
+    axes_fig.suptitle(f"Breiman 2001 - Sonar Figure 1 ({repeats} repetitions)")
+    axes_fig.tight_layout()
+    axes_fig.savefig(fig / "hinh1_sonar.png", dpi=160)
+    plt.close(axes_fig)
+
+    best = int(summary.test_error.idxmin())
+    print(
+        f"Hinh 1: RI F={best} co mean clean test error "
+        f"thap nhat: {summary.loc[best, 'test_error']:.2f}%"
     )
+    return summary
 
+
+def add_noise(y, seed):
+    yn = y.copy()
+    rng = np.random.default_rng(100000 + seed)
+    indices = rng.choice(len(y), size=round(.05 * len(y)), replace=False)
+    yn[indices] = 1 - yn[indices]
+    return yn, len(indices)
+
+
+def one_table4(X, y, i, args, f_ri, f_rc):
+    seed = args.seed + 20000 + i
+    Xtr, Xte, ytr, yte = split(X, y, seed)
+    yn, n_flip = add_noise(ytr, seed)
     rows = []
 
-    ada_clean = AdaBoostResample(n_estimators=50, random_state=42 + i).fit(Xtr, ytr)
-    ada_noisy = AdaBoostResample(n_estimators=50, random_state=42 + i).fit(Xtr, yn)
+    for mode, F in [("RI", f_ri), ("RC", f_rc)]:
+        clean = fit_forest(mode, Xtr, ytr, F, seed, args.trees)
+        noisy = fit_forest(mode, Xtr, yn, F, seed, args.trees)
+        rows.append(dict(
+            seed=seed, mode=mode, F=F, n_flip=n_flip,
+            clean=test_error(mode, clean, Xte, yte),
+            noisy=test_error(mode, noisy, Xte, yte)
+        ))
 
-    for name, clean_model, noisy_model in [
-        ("Adaboost", ada_clean, ada_noisy)
-    ]:
-        rows.append({
-            "seed": i,
-            "mode": name,
-            "clean": np.mean(clean_model.predict(Xte) != yte) * 100,
-            "noisy": np.mean(noisy_model.predict(Xte) != yte) * 100
-        })
-
-    
-    for mode, F in [("RI", 6), ("RC", 2)]:
-        clean_model = BreimanForest(
-            mode, n_trees=100, F=F, seed=42 + i
-        ).fit(Xtr, ytr)
-
-        noisy_model = BreimanForest(
-            mode, n_trees=100, F=F, seed=42 + i
-        ).fit(Xtr, yn)
-
-        rows.append({
-            "seed": i,
-            "mode": mode,
-            "F": F,
-            "clean": np.mean(clean_model.predict(Xte) != yte) * 100,
-            "noisy": np.mean(noisy_model.predict(Xte) != yte) * 100
-        })
-
+    a0 = fit_ada(Xtr, ytr, seed, args.ada_depth)
+    a1 = fit_ada(Xtr, yn, seed, args.ada_depth)
+    rows.append(dict(
+        seed=seed, mode="Adaboost", F=np.nan, n_flip=n_flip,
+        clean=np.mean(a0.predict(Xte) != yte) * 100,
+        noisy=np.mean(a1.predict(Xte) != yte) * 100,
+        ada_clean_trees=len(a0.estimators_),
+        ada_noisy_trees=len(a1.estimators_)
+    ))
     return rows
 
 
-
-
-
-def summarize_noise(d):
-    out = {}
-
-    for mode, g in d.groupby("mode"):
-        diff = g["noisy"] - g["clean"]
-
-        relative_from_means = (
-            100 * diff.mean() / g["clean"].mean()
-        )
-
-        valid = g["clean"] > 0
-        relative_per_run = (
-            100 * (
-                (g.loc[valid, "noisy"] - g.loc[valid, "clean"])
-                / g.loc[valid, "clean"]
-            )
-        ).mean()
-
-        out[mode] = {
-            "clean_mean": g["clean"].mean(),
-            "noisy_mean": g["noisy"].mean(),
-            "tang_tuong_doi": relative_from_means,
-            "tang_tb_tung_lan": relative_per_run,
-            "chenh_diem": diff.mean(),
-            "SE": diff.std() / np.sqrt(len(diff))
-        }
-
-    return pd.DataFrame(out).T.round(2)
-
-
-
-
-# ------------------------------------------------------------------ main
-if __name__ == "__main__":
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-    n_rep = int(sys.argv[1]) if len(sys.argv) > 1 else 100
-    path = sys.argv[2] if len(sys.argv) > 2 else os.path.join(
-        BASE_DIR, "data", "sonar.all-data"
+def table4(X, y, args, res, repeats, f_ri, f_rc):
+    print(f"\n[BANG 4] 5% nhieu, {repeats} lan, RI F={f_ri}, RC F={f_rc}", flush=True)
+    all_rows = Parallel(n_jobs=args.jobs, verbose=5)(
+        delayed(one_table4)(X, y, i, args, f_ri, f_rc)
+        for i in range(repeats)
     )
+    df = pd.DataFrame(row for group in all_rows for row in group)
+    summary = []
 
-    RESULTS_DIR = os.path.join(BASE_DIR, "results")
-    FIGURES_DIR = os.path.join(BASE_DIR, "figures")
+    for mode, g in df.groupby("mode"):
+        clean = float(g.clean.mean())
+        noisy = float(g.noisy.mean())
+        change = 100 * (noisy - clean) / clean
+        diff = g.noisy - g.clean
+        summary.append(dict(
+            mode=mode,
+            clean_mean=clean,
+            noisy_mean=noisy,
+            change_relative_pct=change,
+            paper_pct=PAPER_4[mode],
+            difference_vs_paper=change - PAPER_4[mode],
+            mean_diff_points=float(diff.mean()),
+            SE_diff_points=float(diff.std(ddof=1) / np.sqrt(len(diff))),
+            improved=int((diff < 0).sum()),
+            worsened=int((diff > 0).sum()),
+            unchanged=int((diff == 0).sum())
+        ))
 
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    os.makedirs(FIGURES_DIR, exist_ok=True)
+    out = pd.DataFrame(summary).set_index("mode").reindex(["Adaboost", "RI", "RC"])
+    df.to_csv(res / "table4_noise.csv", index=False)
+    print("\nBANG 4:\n", out.round(2).to_string())
 
-    quick = n_rep < 20
-
-    X, y = load_sonar(path)
-    F2 = int(np.log2(X.shape[1]) + 1)
-    print(f"Sonar {X.shape}, n_rep = {n_rep}", flush=True)
-
-    # ---- Bang 2, 3
-    pairs = Parallel(n_jobs=-1)(
-        delayed(table23_job)(X, y, i, F2) for i in range(n_rep)
-    )
-
-    t2 = pd.DataFrame([p[0] for p in pairs])
-    t3 = pd.DataFrame([p[1] for p in pairs])
-
-    t2.to_csv(os.path.join(RESULTS_DIR, "table2_forest_ri_runs.csv"), index=False)
-    t3.to_csv(os.path.join(RESULTS_DIR, "table3_forest_rc_runs.csv"), index=False)
-
-    t23 = pd.concat([
-        t2[["seed", "strength", "correlation", "c_s2"]].assign(mode="RI"),
-        t3[["seed", "strength", "correlation", "c_s2"]].assign(mode="RC")
-    ], ignore_index=True)
-
-    t23.to_csv(os.path.join(RESULTS_DIR, "strength_correlation_runs.csv"), index=False)
-
-    cols = ["adaboost", "selection", "single", "one_tree"]
-
-    for name, t, ref in (
-        ("Bang 2 (Forest-RI)", t2, PAPER["table2"]),
-        ("Bang 3 (Forest-RC)", t3, PAPER["table3"])
-    ):
-        comp = pd.DataFrame({
-            "cua ban": t[cols].mean(),
-            "SE": t[cols].std() / np.sqrt(len(t)),
-            "bai bao": pd.Series(ref)
-        }).round(2)
-
-        print(f"\n{name}\n{comp}", flush=True)
-        print(
-            "strength/correlation/c_s2:",
-            t[["strength", "correlation", "c_s2"]].mean().round(3).to_dict()
-        )
-
-    print("So cay Adaboost trung binh:", round(t2["n_ada_trees"].mean(), 1), flush=True)
-
-    # ---- Bang 4
-    n4 = 50 if n_rep >= 100 else n_rep
-
-    d4 = pd.DataFrame([
-        r
-        for rows in Parallel(n_jobs=-1)(
-            delayed(noise_job)(X, y, i) for i in range(n4)
-        )
-        for r in rows
-    ])
-
-    d4.to_csv(os.path.join(RESULTS_DIR, "table4_noise_runs.csv"), index=False)
-
-    s4 = summarize_noise(d4)
-    s4["bai bao (%)"] = pd.Series({
-        "Adaboost": PAPER["table4"]["adaboost"],
-        "RI": PAPER["table4"]["RI"],
-        "RC": PAPER["table4"]["RC"]
-    })
-
-    print("\nBang 4 (tang loi khi them 5% nhieu nhan)\n", s4, flush=True)
-
-    # ---- Hinh 1
-    Fs = list(range(1, 51))
-
-    fig = sweep_F(X, y, Fs, n_rep=80)
-    fig.to_csv(os.path.join(RESULTS_DIR, "figure1_sonar_ri.csv"))
-    plot_figure1(fig, os.path.join(FIGURES_DIR, "hinh1_sonar.png"))
-
-    print("\nHinh 1: da luu figures/hinh1_sonar.png", flush=True)
-
-    # ---- Variable Importance
-    n_vi, trees_vi = (2, 100) if quick else (10, 1000)
-
-    vis = [
-        variable_importance(
-            BreimanForest("RI", trees_vi, 1, seed=42 + s).fit(X, y),
-            seed=s
-        )
-        for s in range(n_vi)
-    ]
-
-    vi = pd.DataFrame(vis, columns=range(1, X.shape[1] + 1))
-    vi.index.name = "run"
-    vi.to_csv(os.path.join(RESULTS_DIR, "variable_importance_runs.csv"))
-
+    ada = df[df["mode"] == "Adaboost"]
     print(
-        "\nTop 10 bien quan trong (trung binh qua",
-        n_vi,
-        "lan chay, % tang loi):"
+        "AdaBoost mean realized trees:",
+        ada[["ada_clean_trees", "ada_noisy_trees"]].mean().round(2).to_dict()
     )
-    print(vi.mean().sort_values(ascending=False).head(10).round(1), flush=True)
 
-    print("\nXONG. Ket qua nam trong thu muc results/ va figures/.")
+
+def importance(X, y, args, res, repeats, trees):
+    print(f"\n[IMPORTANCE] {repeats} lan x {trees} cay", flush=True)
+    runs = Parallel(n_jobs=args.jobs, verbose=5)(
+        delayed(perm_importance)(
+            X, y, args.seed + 30000 + i, trees, 1
+        )
+        for i in range(repeats)
+    )
+    detail = pd.DataFrame([
+        dict(run=i, **row)
+        for i, group in enumerate(runs)
+        for row in group
+    ])
+    summary = detail.groupby("feature")["increase_relative_pct"].agg(["mean", "std"])
+    detail.to_csv(res / "variable_importance.csv", index=False)
+    print("Top 10 features:\n", summary.sort_values("mean", ascending=False).head(10).round(2))
+
+
+def choose_features(res, fig_data, rc_data):
+    if fig_data is None:
+        path = res / "figure1_sonar_ri.csv"
+        if not path.exists():
+            raise ValueError("Can chay --mode figure1 truoc --mode table4")
+        fig_data = pd.read_csv(path)
+
+    if rc_data is None:
+        path = res / "table3_forest_rc.csv"
+        if not path.exists():
+            raise ValueError("Can chay --mode tables23 truoc --mode table4")
+        rc_data = pd.read_csv(path)
+
+    f_ri = int(fig_data.groupby("F")["test_error"].mean().idxmin())
+    f_rc = 2 if rc_data["F_low_test"].mean() <= rc_data["F_high_test"].mean() else 8
+    print(f"Da chon F tu du lieu SACH: RI={f_ri}, RC={f_rc}")
+    return f_ri, f_rc
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "--mode",
+        choices=["all", "tables23", "figure1", "table4", "importance"],
+        default="all"
+    )
+    p.add_argument("--jobs", type=int, default=4)
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--trees", type=int, default=100)
+    p.add_argument("--ada-depth", type=int, default=5)
+    p.add_argument("--quick", action="store_true")
+    args = p.parse_args()
+
+    if args.jobs == 0 or args.trees < 1:
+        p.error("--jobs must be nonzero and --trees positive")
+
+    res = ROOT / ("results_quick" if args.quick else "results")
+    fig = ROOT / ("figures_quick" if args.quick else "figures")
+    res.mkdir(exist_ok=True, parents=True)
+    fig.mkdir(exist_ok=True, parents=True)
+
+    data_folder = ROOT / "data"
+    data_folder.mkdir(exist_ok=True, parents=True)
+    data = data_folder / "sonar.all-data"
+
+    if not data.is_file():
+        raise SystemExit(
+            "Hay chep sonar.all-data vao Demo/data/sonar.all-data "
+            "roi chay lai."
+        )
+
+    X, y = load_data(data)
+    print(f"Sonar: {X.shape}, R={(y == 0).sum()}, M={(y == 1).sum()}")
+
+    repeats23 = 4 if args.quick else 100
+    repeats_fig = 3 if args.quick else 30
+    repeats4 = 5 if args.quick else 50
+    repeats_importance = 1 if args.quick else 10
+
+    rc_df, fig_df = None, None
+
+    if args.mode in ("all", "tables23"):
+        rc_df = table23(X, y, args, res, repeats23)
+
+    if args.mode in ("all", "figure1"):
+        fig_df = figure1(X, y, args, res, fig, repeats_fig, args.quick)
+
+    if args.mode in ("all", "table4"):
+        ri_F, rc_F = choose_features(res, fig_df, rc_df)
+        table4(X, y, args, res, repeats4, ri_F, rc_F)
+
+    if args.mode in ("all", "importance"):
+        importance(X, y, args, res, repeats_importance, 100 if args.quick else 1000)
+
+    print(f"\nXONG! Ket qua: {res}; Hinh: {fig}")
+
+
+if __name__ == "__main__":
+    main()
