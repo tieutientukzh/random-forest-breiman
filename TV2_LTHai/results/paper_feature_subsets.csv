@@ -1,0 +1,401 @@
+seed,subset,features,F,error_rate
+0,2,Glucose,1,0.2727272727272727
+0,2+8,"Glucose,Age",1,0.22077922077922074
+0,2+6,"Glucose,BMI",1,0.19480519480519476
+0,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.19480519480519476
+1,2,Glucose,1,0.3246753246753247
+1,2+8,"Glucose,Age",1,0.2727272727272727
+1,2+6,"Glucose,BMI",1,0.20779220779220775
+1,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.16883116883116878
+2,2,Glucose,1,0.2857142857142857
+2,2+8,"Glucose,Age",1,0.33766233766233766
+2,2+6,"Glucose,BMI",1,0.33766233766233766
+2,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+3,2,Glucose,1,0.37662337662337664
+3,2+8,"Glucose,Age",1,0.2987012987012987
+3,2+6,"Glucose,BMI",1,0.38961038961038963
+3,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.3246753246753247
+4,2,Glucose,1,0.23376623376623373
+4,2+8,"Glucose,Age",1,0.23376623376623373
+4,2+6,"Glucose,BMI",1,0.22077922077922074
+4,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+5,2,Glucose,1,0.2597402597402597
+5,2+8,"Glucose,Age",1,0.2987012987012987
+5,2+6,"Glucose,BMI",1,0.19480519480519476
+5,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+6,2,Glucose,1,0.2727272727272727
+6,2+8,"Glucose,Age",1,0.2857142857142857
+6,2+6,"Glucose,BMI",1,0.2727272727272727
+6,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2987012987012987
+7,2,Glucose,1,0.2727272727272727
+7,2+8,"Glucose,Age",1,0.3116883116883117
+7,2+6,"Glucose,BMI",1,0.2857142857142857
+7,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+8,2,Glucose,1,0.2857142857142857
+8,2+8,"Glucose,Age",1,0.37662337662337664
+8,2+6,"Glucose,BMI",1,0.2987012987012987
+8,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.35064935064935066
+9,2,Glucose,1,0.2987012987012987
+9,2+8,"Glucose,Age",1,0.2987012987012987
+9,2+6,"Glucose,BMI",1,0.2727272727272727
+9,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+10,2,Glucose,1,0.3116883116883117
+10,2+8,"Glucose,Age",1,0.37662337662337664
+10,2+6,"Glucose,BMI",1,0.22077922077922074
+10,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+11,2,Glucose,1,0.2987012987012987
+11,2+8,"Glucose,Age",1,0.3246753246753247
+11,2+6,"Glucose,BMI",1,0.3116883116883117
+11,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+12,2,Glucose,1,0.20779220779220775
+12,2+8,"Glucose,Age",1,0.23376623376623373
+12,2+6,"Glucose,BMI",1,0.2597402597402597
+12,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.19480519480519476
+13,2,Glucose,1,0.35064935064935066
+13,2+8,"Glucose,Age",1,0.38961038961038963
+13,2+6,"Glucose,BMI",1,0.2987012987012987
+13,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+14,2,Glucose,1,0.38961038961038963
+14,2+8,"Glucose,Age",1,0.35064935064935066
+14,2+6,"Glucose,BMI",1,0.2597402597402597
+14,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.3246753246753247
+15,2,Glucose,1,0.2727272727272727
+15,2+8,"Glucose,Age",1,0.2857142857142857
+15,2+6,"Glucose,BMI",1,0.24675324675324672
+15,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+16,2,Glucose,1,0.2987012987012987
+16,2+8,"Glucose,Age",1,0.24675324675324672
+16,2+6,"Glucose,BMI",1,0.23376623376623373
+16,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+17,2,Glucose,1,0.2597402597402597
+17,2+8,"Glucose,Age",1,0.4025974025974026
+17,2+6,"Glucose,BMI",1,0.22077922077922074
+17,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+18,2,Glucose,1,0.33766233766233766
+18,2+8,"Glucose,Age",1,0.33766233766233766
+18,2+6,"Glucose,BMI",1,0.3116883116883117
+18,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+19,2,Glucose,1,0.3246753246753247
+19,2+8,"Glucose,Age",1,0.3246753246753247
+19,2+6,"Glucose,BMI",1,0.2987012987012987
+19,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+20,2,Glucose,1,0.33766233766233766
+20,2+8,"Glucose,Age",1,0.2727272727272727
+20,2+6,"Glucose,BMI",1,0.2987012987012987
+20,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+21,2,Glucose,1,0.2857142857142857
+21,2+8,"Glucose,Age",1,0.37662337662337664
+21,2+6,"Glucose,BMI",1,0.3246753246753247
+21,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.3116883116883117
+22,2,Glucose,1,0.3246753246753247
+22,2+8,"Glucose,Age",1,0.2857142857142857
+22,2+6,"Glucose,BMI",1,0.2597402597402597
+22,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+23,2,Glucose,1,0.23376623376623373
+23,2+8,"Glucose,Age",1,0.2987012987012987
+23,2+6,"Glucose,BMI",1,0.2727272727272727
+23,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+24,2,Glucose,1,0.36363636363636365
+24,2+8,"Glucose,Age",1,0.35064935064935066
+24,2+6,"Glucose,BMI",1,0.18181818181818177
+24,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+25,2,Glucose,1,0.2987012987012987
+25,2+8,"Glucose,Age",1,0.3116883116883117
+25,2+6,"Glucose,BMI",1,0.2857142857142857
+25,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.16883116883116878
+26,2,Glucose,1,0.3246753246753247
+26,2+8,"Glucose,Age",1,0.2857142857142857
+26,2+6,"Glucose,BMI",1,0.2597402597402597
+26,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+27,2,Glucose,1,0.2857142857142857
+27,2+8,"Glucose,Age",1,0.22077922077922074
+27,2+6,"Glucose,BMI",1,0.24675324675324672
+27,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+28,2,Glucose,1,0.2727272727272727
+28,2+8,"Glucose,Age",1,0.2987012987012987
+28,2+6,"Glucose,BMI",1,0.22077922077922074
+28,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.19480519480519476
+29,2,Glucose,1,0.2727272727272727
+29,2+8,"Glucose,Age",1,0.2727272727272727
+29,2+6,"Glucose,BMI",1,0.23376623376623373
+29,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+30,2,Glucose,1,0.2857142857142857
+30,2+8,"Glucose,Age",1,0.3246753246753247
+30,2+6,"Glucose,BMI",1,0.18181818181818177
+30,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+31,2,Glucose,1,0.2857142857142857
+31,2+8,"Glucose,Age",1,0.3116883116883117
+31,2+6,"Glucose,BMI",1,0.3246753246753247
+31,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.3116883116883117
+32,2,Glucose,1,0.2987012987012987
+32,2+8,"Glucose,Age",1,0.2597402597402597
+32,2+6,"Glucose,BMI",1,0.2597402597402597
+32,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+33,2,Glucose,1,0.23376623376623373
+33,2+8,"Glucose,Age",1,0.2597402597402597
+33,2+6,"Glucose,BMI",1,0.2857142857142857
+33,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+34,2,Glucose,1,0.2597402597402597
+34,2+8,"Glucose,Age",1,0.2857142857142857
+34,2+6,"Glucose,BMI",1,0.23376623376623373
+34,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+35,2,Glucose,1,0.23376623376623373
+35,2+8,"Glucose,Age",1,0.24675324675324672
+35,2+6,"Glucose,BMI",1,0.23376623376623373
+35,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+36,2,Glucose,1,0.24675324675324672
+36,2+8,"Glucose,Age",1,0.33766233766233766
+36,2+6,"Glucose,BMI",1,0.33766233766233766
+36,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+37,2,Glucose,1,0.3246753246753247
+37,2+8,"Glucose,Age",1,0.35064935064935066
+37,2+6,"Glucose,BMI",1,0.2857142857142857
+37,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+38,2,Glucose,1,0.36363636363636365
+38,2+8,"Glucose,Age",1,0.3246753246753247
+38,2+6,"Glucose,BMI",1,0.3116883116883117
+38,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+39,2,Glucose,1,0.33766233766233766
+39,2+8,"Glucose,Age",1,0.35064935064935066
+39,2+6,"Glucose,BMI",1,0.2987012987012987
+39,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+40,2,Glucose,1,0.18181818181818177
+40,2+8,"Glucose,Age",1,0.2857142857142857
+40,2+6,"Glucose,BMI",1,0.2597402597402597
+40,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+41,2,Glucose,1,0.2987012987012987
+41,2+8,"Glucose,Age",1,0.2597402597402597
+41,2+6,"Glucose,BMI",1,0.22077922077922074
+41,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.1558441558441559
+42,2,Glucose,1,0.2727272727272727
+42,2+8,"Glucose,Age",1,0.3116883116883117
+42,2+6,"Glucose,BMI",1,0.2857142857142857
+42,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+43,2,Glucose,1,0.24675324675324672
+43,2+8,"Glucose,Age",1,0.22077922077922074
+43,2+6,"Glucose,BMI",1,0.22077922077922074
+43,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+44,2,Glucose,1,0.3116883116883117
+44,2+8,"Glucose,Age",1,0.2727272727272727
+44,2+6,"Glucose,BMI",1,0.24675324675324672
+44,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+45,2,Glucose,1,0.3246753246753247
+45,2+8,"Glucose,Age",1,0.2987012987012987
+45,2+6,"Glucose,BMI",1,0.2597402597402597
+45,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+46,2,Glucose,1,0.3246753246753247
+46,2+8,"Glucose,Age",1,0.4285714285714286
+46,2+6,"Glucose,BMI",1,0.4675324675324676
+46,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+47,2,Glucose,1,0.2987012987012987
+47,2+8,"Glucose,Age",1,0.4025974025974026
+47,2+6,"Glucose,BMI",1,0.33766233766233766
+47,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+48,2,Glucose,1,0.2857142857142857
+48,2+8,"Glucose,Age",1,0.2987012987012987
+48,2+6,"Glucose,BMI",1,0.2987012987012987
+48,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+49,2,Glucose,1,0.35064935064935066
+49,2+8,"Glucose,Age",1,0.37662337662337664
+49,2+6,"Glucose,BMI",1,0.24675324675324672
+49,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+50,2,Glucose,1,0.35064935064935066
+50,2+8,"Glucose,Age",1,0.2597402597402597
+50,2+6,"Glucose,BMI",1,0.24675324675324672
+50,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+51,2,Glucose,1,0.24675324675324672
+51,2+8,"Glucose,Age",1,0.3116883116883117
+51,2+6,"Glucose,BMI",1,0.3246753246753247
+51,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+52,2,Glucose,1,0.2857142857142857
+52,2+8,"Glucose,Age",1,0.2727272727272727
+52,2+6,"Glucose,BMI",1,0.23376623376623373
+52,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+53,2,Glucose,1,0.2857142857142857
+53,2+8,"Glucose,Age",1,0.2857142857142857
+53,2+6,"Glucose,BMI",1,0.2857142857142857
+53,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+54,2,Glucose,1,0.2727272727272727
+54,2+8,"Glucose,Age",1,0.35064935064935066
+54,2+6,"Glucose,BMI",1,0.3116883116883117
+54,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2987012987012987
+55,2,Glucose,1,0.4155844155844156
+55,2+8,"Glucose,Age",1,0.37662337662337664
+55,2+6,"Glucose,BMI",1,0.2857142857142857
+55,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+56,2,Glucose,1,0.22077922077922074
+56,2+8,"Glucose,Age",1,0.2597402597402597
+56,2+6,"Glucose,BMI",1,0.19480519480519476
+56,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+57,2,Glucose,1,0.37662337662337664
+57,2+8,"Glucose,Age",1,0.2987012987012987
+57,2+6,"Glucose,BMI",1,0.2727272727272727
+57,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.19480519480519476
+58,2,Glucose,1,0.2857142857142857
+58,2+8,"Glucose,Age",1,0.2987012987012987
+58,2+6,"Glucose,BMI",1,0.2727272727272727
+58,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+59,2,Glucose,1,0.3116883116883117
+59,2+8,"Glucose,Age",1,0.2987012987012987
+59,2+6,"Glucose,BMI",1,0.2727272727272727
+59,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+60,2,Glucose,1,0.20779220779220775
+60,2+8,"Glucose,Age",1,0.24675324675324672
+60,2+6,"Glucose,BMI",1,0.24675324675324672
+60,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+61,2,Glucose,1,0.2727272727272727
+61,2+8,"Glucose,Age",1,0.2987012987012987
+61,2+6,"Glucose,BMI",1,0.2597402597402597
+61,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+62,2,Glucose,1,0.33766233766233766
+62,2+8,"Glucose,Age",1,0.35064935064935066
+62,2+6,"Glucose,BMI",1,0.2857142857142857
+62,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+63,2,Glucose,1,0.35064935064935066
+63,2+8,"Glucose,Age",1,0.35064935064935066
+63,2+6,"Glucose,BMI",1,0.2727272727272727
+63,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+64,2,Glucose,1,0.22077922077922074
+64,2+8,"Glucose,Age",1,0.2987012987012987
+64,2+6,"Glucose,BMI",1,0.2857142857142857
+64,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.16883116883116878
+65,2,Glucose,1,0.3116883116883117
+65,2+8,"Glucose,Age",1,0.2727272727272727
+65,2+6,"Glucose,BMI",1,0.2857142857142857
+65,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2857142857142857
+66,2,Glucose,1,0.2857142857142857
+66,2+8,"Glucose,Age",1,0.2727272727272727
+66,2+6,"Glucose,BMI",1,0.2987012987012987
+66,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.16883116883116878
+67,2,Glucose,1,0.35064935064935066
+67,2+8,"Glucose,Age",1,0.35064935064935066
+67,2+6,"Glucose,BMI",1,0.35064935064935066
+67,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.36363636363636365
+68,2,Glucose,1,0.2987012987012987
+68,2+8,"Glucose,Age",1,0.2857142857142857
+68,2+6,"Glucose,BMI",1,0.36363636363636365
+68,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+69,2,Glucose,1,0.3116883116883117
+69,2+8,"Glucose,Age",1,0.22077922077922074
+69,2+6,"Glucose,BMI",1,0.2727272727272727
+69,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+70,2,Glucose,1,0.24675324675324672
+70,2+8,"Glucose,Age",1,0.2597402597402597
+70,2+6,"Glucose,BMI",1,0.20779220779220775
+70,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+71,2,Glucose,1,0.22077922077922074
+71,2+8,"Glucose,Age",1,0.2597402597402597
+71,2+6,"Glucose,BMI",1,0.24675324675324672
+71,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+72,2,Glucose,1,0.2857142857142857
+72,2+8,"Glucose,Age",1,0.24675324675324672
+72,2+6,"Glucose,BMI",1,0.19480519480519476
+72,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+73,2,Glucose,1,0.3246753246753247
+73,2+8,"Glucose,Age",1,0.35064935064935066
+73,2+6,"Glucose,BMI",1,0.3246753246753247
+73,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+74,2,Glucose,1,0.23376623376623373
+74,2+8,"Glucose,Age",1,0.18181818181818177
+74,2+6,"Glucose,BMI",1,0.3116883116883117
+74,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+75,2,Glucose,1,0.35064935064935066
+75,2+8,"Glucose,Age",1,0.2987012987012987
+75,2+6,"Glucose,BMI",1,0.2987012987012987
+75,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2727272727272727
+76,2,Glucose,1,0.3116883116883117
+76,2+8,"Glucose,Age",1,0.33766233766233766
+76,2+6,"Glucose,BMI",1,0.2727272727272727
+76,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+77,2,Glucose,1,0.2987012987012987
+77,2+8,"Glucose,Age",1,0.24675324675324672
+77,2+6,"Glucose,BMI",1,0.23376623376623373
+77,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+78,2,Glucose,1,0.2857142857142857
+78,2+8,"Glucose,Age",1,0.33766233766233766
+78,2+6,"Glucose,BMI",1,0.2857142857142857
+78,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+79,2,Glucose,1,0.36363636363636365
+79,2+8,"Glucose,Age",1,0.3116883116883117
+79,2+6,"Glucose,BMI",1,0.36363636363636365
+79,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2857142857142857
+80,2,Glucose,1,0.33766233766233766
+80,2+8,"Glucose,Age",1,0.2597402597402597
+80,2+6,"Glucose,BMI",1,0.2727272727272727
+80,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.23376623376623373
+81,2,Glucose,1,0.22077922077922074
+81,2+8,"Glucose,Age",1,0.20779220779220775
+81,2+6,"Glucose,BMI",1,0.19480519480519476
+81,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2597402597402597
+82,2,Glucose,1,0.2597402597402597
+82,2+8,"Glucose,Age",1,0.2987012987012987
+82,2+6,"Glucose,BMI",1,0.2597402597402597
+82,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+83,2,Glucose,1,0.2987012987012987
+83,2+8,"Glucose,Age",1,0.23376623376623373
+83,2+6,"Glucose,BMI",1,0.24675324675324672
+83,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2857142857142857
+84,2,Glucose,1,0.3246753246753247
+84,2+8,"Glucose,Age",1,0.2857142857142857
+84,2+6,"Glucose,BMI",1,0.3246753246753247
+84,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+85,2,Glucose,1,0.2857142857142857
+85,2+8,"Glucose,Age",1,0.2597402597402597
+85,2+6,"Glucose,BMI",1,0.3246753246753247
+85,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2987012987012987
+86,2,Glucose,1,0.2597402597402597
+86,2+8,"Glucose,Age",1,0.2727272727272727
+86,2+6,"Glucose,BMI",1,0.2597402597402597
+86,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+87,2,Glucose,1,0.3116883116883117
+87,2+8,"Glucose,Age",1,0.2987012987012987
+87,2+6,"Glucose,BMI",1,0.2857142857142857
+87,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.3116883116883117
+88,2,Glucose,1,0.3116883116883117
+88,2+8,"Glucose,Age",1,0.3246753246753247
+88,2+6,"Glucose,BMI",1,0.2987012987012987
+88,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.24675324675324672
+89,2,Glucose,1,0.2727272727272727
+89,2+8,"Glucose,Age",1,0.3116883116883117
+89,2+6,"Glucose,BMI",1,0.24675324675324672
+89,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+90,2,Glucose,1,0.2597402597402597
+90,2+8,"Glucose,Age",1,0.23376623376623373
+90,2+6,"Glucose,BMI",1,0.2727272727272727
+90,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.20779220779220775
+91,2,Glucose,1,0.3116883116883117
+91,2+8,"Glucose,Age",1,0.35064935064935066
+91,2+6,"Glucose,BMI",1,0.2597402597402597
+91,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.2987012987012987
+92,2,Glucose,1,0.2987012987012987
+92,2+8,"Glucose,Age",1,0.2987012987012987
+92,2+6,"Glucose,BMI",1,0.2727272727272727
+92,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+93,2,Glucose,1,0.3116883116883117
+93,2+8,"Glucose,Age",1,0.3246753246753247
+93,2+6,"Glucose,BMI",1,0.3116883116883117
+93,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+94,2,Glucose,1,0.23376623376623373
+94,2+8,"Glucose,Age",1,0.3246753246753247
+94,2+6,"Glucose,BMI",1,0.2857142857142857
+94,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+95,2,Glucose,1,0.19480519480519476
+95,2+8,"Glucose,Age",1,0.23376623376623373
+95,2+6,"Glucose,BMI",1,0.22077922077922074
+95,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.18181818181818177
+96,2,Glucose,1,0.3116883116883117
+96,2+8,"Glucose,Age",1,0.33766233766233766
+96,2+6,"Glucose,BMI",1,0.2857142857142857
+96,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+97,2,Glucose,1,0.24675324675324672
+97,2+8,"Glucose,Age",1,0.23376623376623373
+97,2+6,"Glucose,BMI",1,0.3246753246753247
+97,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.1558441558441559
+98,2,Glucose,1,0.3116883116883117
+98,2+8,"Glucose,Age",1,0.23376623376623373
+98,2+6,"Glucose,BMI",1,0.2597402597402597
+98,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
+99,2,Glucose,1,0.2857142857142857
+99,2+8,"Glucose,Age",1,0.37662337662337664
+99,2+6,"Glucose,BMI",1,0.3246753246753247
+99,All 8,"Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age",1,0.22077922077922074
